@@ -16,3 +16,6 @@ def GolfBallPrediction(sess, model, data, config):
     plt.plot(*y_predict[0], 'xr')
     circ = plt.Circle(y_predict[0], 11, color='r', fill=False, linestyle='--')
     plt.gca().add_artist(circ)
+    plt.show()
+    _ = "breakpoint"
+    plt.close('all')
