@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def GolfBallPrediction(sess, model, data, config):
     # load data
-    idx = int(config.predict_instead_of_training)
+    idx = int(config.do_predict)
     x = data.input[[idx]]
     y = data.y[[idx]]
 

@@ -8,6 +8,8 @@ class BaseModel:
         self.init_global_step()
         # init the epoch counter
         self.init_cur_epoch()
+        # flag to indicate if model has been loaded
+        self.is_loaded = False
 
     # save function that saves the checkpoint in the path defined in the config file
     def save(self, sess):
@@ -21,6 +23,7 @@ class BaseModel:
         if latest_checkpoint:
             print("Loading model checkpoint {} ...\n".format(latest_checkpoint))
             self.saver.restore(sess, latest_checkpoint)
+            self.is_loaded = True
             print("Model loaded")
 
     # just initialize a tensorflow variable to use it as epoch counter

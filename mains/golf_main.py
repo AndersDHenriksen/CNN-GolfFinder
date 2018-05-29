@@ -33,14 +33,13 @@ def main():
     data = DataGenerator(config)
     # create tensorboard logger
     logger = Logger(sess, config)
-    if config.predict_instead_of_training:
-        GolfBallPrediction(sess, model, data, config)
-    else:
+    if config.do_training:
         # create trainer and pass all the previous components to it
         trainer = GolfBallTrainer(sess, model, data, config, logger)
-
         # here you train your model
         trainer.train()
+    if config.do_predict:
+        GolfBallPrediction(sess, model, data, config)
 
 
 if __name__ == '__main__':
