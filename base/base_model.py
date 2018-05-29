@@ -25,6 +25,8 @@ class BaseModel:
             self.saver.restore(sess, latest_checkpoint)
             self.is_loaded = True
             print("Model loaded")
+        else:
+            assert self.config.do_training, "Must either load model or do training"
 
     # just initialize a tensorflow variable to use it as epoch counter
     def init_cur_epoch(self):
