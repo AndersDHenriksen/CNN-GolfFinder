@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import keras.backend as K
 
 test_randomly = True
 
@@ -11,7 +12,7 @@ def GolfBallPrediction(sess, model, data, config):
     y = data.y_test[[idx]]
 
     # Eval data
-    feed_dict = {model.x: x, model.y: y, model.is_training: False}
+    feed_dict = {model.x: x, model.y: y, model.is_training: False, K.learning_phase(): 0}
     y_predict, loss, acc = sess.run([model.y_out, model.squared_error, model.accuracy], feed_dict=feed_dict)
 
     # Plot result

@@ -1,4 +1,5 @@
 import tensorflow as tf
+from keras import backend as K
 
 from data_loader.data_generator import DataGenerator
 from models.golf_model import GolfBallModel
@@ -25,6 +26,7 @@ def main():
     create_dirs([config.summary_dir, config.checkpoint_dir])
     # create tensorflow session
     sess = tf.Session()
+    K.set_session(sess)
     # create an instance of the model you want
     model = GolfBallModel(config)
     # load model if exists
