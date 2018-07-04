@@ -1,7 +1,9 @@
 import json
-from bunch import Bunch
+from munch import Munch
 from pathlib import Path
 from datetime import datetime
+import os
+
 
 def get_config_from_json(json_file):
     """
@@ -14,7 +16,7 @@ def get_config_from_json(json_file):
         config_dict = json.load(config_file)
 
     # convert the dictionary to a namespace using bunch lib
-    config = Bunch(config_dict)
+    config = Munch(config_dict)
 
     return config, config_dict
 
@@ -31,8 +33,8 @@ def process_config(json_file):
             do_load_exp = False
     if not do_load_exp:
         run_n = len(list(experiment_folder.glob('*' + config.exp_name + '*')))
-        config.exp_name = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | {config.exp_name}_run{run_n}"
-    config.summary_dir = f"{experiment_folder / config.exp_name}/summary/"
-    config.checkpoint_dir = f"{experiment_folder / config.exp_name}/checkpoint/"
+        config.exp_name = "{} - {}_run{}".format(datetime.now().strftime('%Y-%m-%d %H-%M-%S'), config.exp_name, run_n)
+    config.summary_dir = "{}".format(os.path.realpath(str(experiment_folder / config.exp_name / "summary")) + os.sep)
+    config.checkpoint_dir = "{}".format(os.path.realpath(str(experiment_folder / config.exp_name / "checkpoint")) + os.sep)
 
     return config

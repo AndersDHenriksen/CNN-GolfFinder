@@ -1,12 +1,12 @@
 {
-  "exp_name": "cnn_example",
-  "num_epochs": 500,
-  "num_iter_per_epoch": 40,
-  "learning_rate": 0.00005,
+  "exp_name": "cnn_augmented_data",
+  "num_epochs": 50000,
+  "num_iter_per_epoch": 400,
+  "learning_rate": 0.000010,
   "batch_size": 16,
   "state_size": [144, 100, 4],
   "max_to_keep": 5,
   "test_split_ratio": 0.1,
   "do_training": true,
-  "do_predict": true
+  "do_predict": false
 }

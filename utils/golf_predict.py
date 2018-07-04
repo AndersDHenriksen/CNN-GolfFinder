@@ -1,6 +1,11 @@
-import matplotlib.pyplot as plt
+do_plot = True
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    do_plot = False
+
 import numpy as np
-import keras.backend as K
+from tensorflow.python.keras import backend as K
 
 test_randomly = True
 
@@ -15,13 +20,14 @@ def GolfBallPrediction(sess, model, data, config):
     feed_dict = {model.x: x, model.y: y, model.is_training: False, K.learning_phase(): 0}
     y_predict, loss, acc = sess.run([model.y_out, model.squared_error, model.accuracy], feed_dict=feed_dict)
 
-    # Plot result
-    plt.figure()
-    plt.imshow(x[0, :, :, :3])
-    plt.plot(*y_predict[0], 'xr')
-    circ = plt.Circle(y_predict[0], 11, color='r', fill=False, linestyle='--')
-    plt.gca().add_artist(circ)
-    plt.title(f"Accuracy: {acc:.2f}")
-    plt.show()
-    # _ = "breakpoint"
-    # plt.close('all')
+    if do_plot:
+        # Plot result
+        plt.figure()
+        plt.imshow(x[0, :, :, :3])
+        plt.plot(*y_predict[0], 'xr')
+        circ = plt.Circle(y_predict[0], 11, color='r', fill=False, linestyle='--')
+        plt.gca().add_artist(circ)
+        plt.title("Accuracy: {:.2f}".format(acc))
+        plt.show()
+        # _ = "breakpoint"
+        # plt.close('all')

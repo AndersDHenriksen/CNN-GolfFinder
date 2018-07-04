@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras import backend as K
+from tensorflow.python.keras import backend as K
 
 from data_loader.data_generator import DataGenerator
 from models.golf_model import GolfBallModel
@@ -25,7 +25,9 @@ def main():
     # create the experiments dirs
     create_dirs([config.summary_dir, config.checkpoint_dir])
     # create tensorflow session
-    sess = tf.Session()
+    tf_config = tf.ConfigProto()
+    tf_config.gpu_options.allow_growth = True
+    sess = tf.Session(config=tf_config)
     K.set_session(sess)
     # create an instance of the model you want
     model = GolfBallModel(config)
@@ -51,3 +53,4 @@ if __name__ == '__main__':
     # --  parameters: --config=./configs/golf_config.json
     # -- working dir: /home/anders/PycharmProjects/BallFinder
     # To start tensorboard in console run: tensorboard --logdir=../experiments
+    # (windows) To start tensorboard in conda console run: tensorboard --logdir=C:\Users\Anders\PycharmProjects\experiments

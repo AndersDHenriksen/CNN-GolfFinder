@@ -1,7 +1,7 @@
 from base.base_train import BaseTrain
 from tqdm import tqdm
 import numpy as np
-import keras.backend as K
+from tensorflow.python.keras import backend as K
 
 
 class GolfBallTrainer(BaseTrain):
@@ -34,7 +34,8 @@ class GolfBallTrainer(BaseTrain):
 
 
     def train_step(self):
-        batch_x, batch_y = next(self.data.next_batch(self.config.batch_size))
+        # batch_x, batch_y = next(self.data.next_batch(self.config.batch_size))
+        batch_x, batch_y = next(self.data.next_batch)
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: True, K.learning_phase(): 1}
         _, loss, acc = self.sess.run([self.model.train_step, self.model.squared_error, self.model.accuracy],
                                      feed_dict=feed_dict)

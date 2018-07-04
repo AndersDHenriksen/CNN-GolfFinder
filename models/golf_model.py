@@ -1,6 +1,7 @@
 from base.base_model import BaseModel
 import tensorflow as tf
-from keras.layers import Conv2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.python.keras.layers import Conv2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense, Dropout
+
 
 class GolfBallModel(BaseModel):
     def __init__(self, config):
@@ -30,12 +31,13 @@ class GolfBallModel(BaseModel):
 
         X = Flatten()(X)
         X = Activation('relu')(X)
+        # X = Dropout(0.5)(X)
 
         X = Dense(128)(X)
         X = Activation('relu')(X)
-        # X = Dropout(0.5)(X)
+        X = Dropout(0.5)(X)
 
-        # X = Dense(16)(X)
+        X = Dense(16)(X)
         # X = Activation('relu')(X)
         # X = Dropout(0.5)(X)
 

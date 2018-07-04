@@ -2,7 +2,7 @@ import numpy as np
 import pathlib
 import pandas as pd
 import sklearn.model_selection
-
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 
 class DataGenerator:
     def __init__(self, config):
@@ -20,6 +20,11 @@ class DataGenerator:
         self.input, self.input_test, self.y, self.y_test = \
             sklearn.model_selection.train_test_split(input_all, y_all, test_size=config.test_split_ratio, random_state=0)
 
-    def next_batch(self, batch_size):
-        idx = np.random.choice(self.y.shape[0], batch_size)
-        yield self.input[idx], self.y[idx]
+        self.input_test = self.input_test.astype(np.float) / 255  # Consider also making a gennerator for test data
+        datagen = ImageDataGenerator(rescale=1./255, width_shift_range=4, height_shift_range=4, vertical_flip=True)
+        self.next_batch = datagen.flow(self.input, self.y, batch_size=self.config.batch_size)
+
+
+    # def next_batch(self, batch_size):
+    #     idx = np.random.choice(self.y.shape[0], batch_size)
+    #     yield self.input[idx], self.y[idx]
