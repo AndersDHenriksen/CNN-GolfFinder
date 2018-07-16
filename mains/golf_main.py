@@ -24,17 +24,17 @@ def main():
 
     # create the experiments dirs
     create_dirs([config.summary_dir, config.checkpoint_dir])
+    # create your data generator
+    data = DataGenerator(config)
     # create tensorflow session
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.allow_growth = True
     sess = tf.Session(config=tf_config)
     K.set_session(sess)
     # create an instance of the model you want
-    model = GolfBallModel(config)
+    model = GolfBallModel(config, data)
     # load model if exists
     model.load(sess)
-    # create your data generator
-    data = DataGenerator(config)
     # create tensorboard logger
     logger = Logger(sess, config)
     if config.do_training:
@@ -52,5 +52,7 @@ if __name__ == '__main__':
     # -- script_path: /home/anders/PycharmProjects/BallFinder/mains/golf_main.py
     # --  parameters: --config=./configs/golf_config.json
     # -- working dir: /home/anders/PycharmProjects/BallFinder
-    # To start tensorboard in console run: tensorboard --logdir=../experiments
-    # (windows) To start tensorboard in conda console run: tensorboard --logdir=C:\Users\Anders\PycharmProjects\experiments
+    # (linux) To start tensorboard in console run: tensorboard --logdir=../experiments
+    # (windows) To start tensorboard in conda console run:
+    # > conda activate tensorflow
+    # > tensorboard --logdir="C:\Users\ahe\Google Drive\TrackMan\01. FullSwing\DeepLearning\experiments"

@@ -1,6 +1,6 @@
 {
   "exp_name": "cnn_augmented_data",
-  "num_epochs": 50000,
+  "num_epochs": 100000,
   "num_iter_per_epoch": 400,
   "learning_rate": 0.000010,
   "batch_size": 16,

@@ -4,8 +4,9 @@ from tensorflow.python.keras.layers import Conv2D, BatchNormalization, Activatio
 
 
 class GolfBallModel(BaseModel):
-    def __init__(self, config):
+    def __init__(self, config, data):
         super(GolfBallModel, self).__init__(config)
+        self.data = data
         self.build_model()
         self.init_saver()
 
@@ -18,30 +19,31 @@ class GolfBallModel(BaseModel):
         # network architecture
 
         # CONV -> BN -> RELU Block -> Max Pool applied to X
-        X = Conv2D(32, (9, 9), strides=(5, 5), name='conv0')(self.x)
+        X = Conv2D(48, (9, 9), strides=(5, 5), name='conv0')(self.x)
         # X = BatchNormalization(name='bn0')(X) #TODO try tf.Keras batchnormalization layer instead
         X = Activation('relu')(X)
         X = MaxPooling2D((2, 2), name='max_pool0')(X)
 
         # CONV -> BN -> RELU Block -> Max Pool applied to X
-        X = Conv2D(64, (3, 3), strides=(1, 1), name='conv1')(X)
+        X = Conv2D(96, (3, 3), strides=(1, 1), name='conv1')(X)
         # X = BatchNormalization(name='bn1')(X)
         X = Activation('relu')(X)
         X = MaxPooling2D((2, 2), name='max_pool1')(X)
 
         X = Flatten()(X)
         X = Activation('relu')(X)
-        # X = Dropout(0.5)(X)
+        X = Dropout(0.3)(X)
 
         X = Dense(128)(X)
         X = Activation('relu')(X)
         X = Dropout(0.5)(X)
 
         X = Dense(16)(X)
-        # X = Activation('relu')(X)
+        X = Activation('relu')(X)
         # X = Dropout(0.5)(X)
+        X = Dense(2)(X)
 
-        self.y_out = Dense(2)(X)
+        self.y_out = self.data.y.std(axis=0) * X + self.data.y.mean(axis=0)
 
 
         with tf.name_scope("loss"):

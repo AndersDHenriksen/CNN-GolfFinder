@@ -34,7 +34,7 @@ def process_config(json_file):
     if not do_load_exp:
         run_n = len(list(experiment_folder.glob('*' + config.exp_name + '*')))
         config.exp_name = "{} - {}_run{}".format(datetime.now().strftime('%Y-%m-%d %H-%M-%S'), config.exp_name, run_n)
-    config.summary_dir = "{}".format(os.path.realpath(str(experiment_folder / config.exp_name / "summary")) + os.sep)
-    config.checkpoint_dir = "{}".format(os.path.realpath(str(experiment_folder / config.exp_name / "checkpoint")) + os.sep)
+    config.summary_dir = str(experiment_folder / config.exp_name / "summary") + os.sep
+    config.checkpoint_dir = str(experiment_folder / config.exp_name / "checkpoint") + os.sep
 
     return config

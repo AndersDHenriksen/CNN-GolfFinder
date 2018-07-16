@@ -31,11 +31,8 @@ class GolfBallTrainer(BaseTrain):
         summaries_dict = {'loss': loss, 'acc': acc}
         self.logger.summarize(cur_it, summarizer="test", summaries_dict=summaries_dict)
 
-
-
     def train_step(self):
-        # batch_x, batch_y = next(self.data.next_batch(self.config.batch_size))
-        batch_x, batch_y = next(self.data.next_batch)
+        batch_x, batch_y = self.data.next_batch()
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: True, K.learning_phase(): 1}
         _, loss, acc = self.sess.run([self.model.train_step, self.model.squared_error, self.model.accuracy],
                                      feed_dict=feed_dict)
